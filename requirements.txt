@@ -6,5 +6,5 @@ textblob==0.17.1
 googletrans==4.0.0-rc1
 PyMuPDF==1.22.5
 langdetect==1.0.9
-torch==2.0.0
+torch==2.5.1  # Compatible version
 tokenizers==0.13.3
