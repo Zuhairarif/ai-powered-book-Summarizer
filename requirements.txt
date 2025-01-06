@@ -5,5 +5,4 @@ langdetect
 textblob
 googletrans==4.0.0-rc1
 pymupdf
-torch==2.5.1  # Use a compatible version of PyTorch for Python 3.12
-tensorflow==2.18.0  # Use a compatible version of TensorFlow
+torch==2.0.1  # Use a compatible version of PyTorch for Python 3.10 or 3.11
