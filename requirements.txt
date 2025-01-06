@@ -1,9 +1,9 @@
 streamlit
 nltk
-fitz
 transformers
 langdetect
 textblob
 googletrans==4.0.0-rc1
-torch
 PyMuPDF
+torch
+tensorflow==2.12.0
