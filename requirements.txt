@@ -4,6 +4,6 @@ transformers
 langdetect
 textblob
 googletrans==4.0.0-rc1
-PyMuPDF
+PyMuPDF==1.18.19
 torch
 tensorflow==2.12.0
