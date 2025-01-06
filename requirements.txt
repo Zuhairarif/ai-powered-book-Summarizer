@@ -7,3 +7,6 @@ PyMuPDF==1.22.5
 langdetect==1.0.9
 torch==2.2.0  # Updated torch version
 tokenizers==0.13.3
+pip>=21.0
+rust
+
