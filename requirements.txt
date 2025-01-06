@@ -1,8 +1,9 @@
 streamlit
 nltk
+fitz
 transformers
 langdetect
 textblob
 googletrans==4.0.0-rc1
-pymupdf
-torch==2.0.1  # Use a compatible version of PyTorch for Python 3.10 or 3.11
+torch
+PyMuPDF
