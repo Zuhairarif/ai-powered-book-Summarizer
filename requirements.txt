@@ -3,9 +3,9 @@ transformers==4.24.0
 nltk==3.7
 textblob==0.15.3
 googletrans==4.0.0-rc1
-PyMuPDF==1.18.0
+PyMuPDF==1.18.1  # Updated version for better compatibility
 langdetect==1.0.9
-torch==2.5.1
+torch==1.12.0  # Downgraded version to avoid issues with newer PyTorch versions
 pip>=24.3.1
 setuptools>=64.0
-tokenizers==0.12.1
+tokenizers==0.10.3  # Compatible version that avoids Rust issues
