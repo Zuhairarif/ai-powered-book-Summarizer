@@ -1,20 +1,18 @@
-import nltk 
 import os
 import fitz  # PyMuPDF for PDF handling
-from transformers import pipeline
 import streamlit as st
+from transformers import pipeline
 from langdetect import detect
 from textblob import TextBlob
 from googletrans import Translator
+import nltk
+import re
 
 # Ensure required NLTK data is downloaded
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt")
+nltk.download("punkt")
 
 # Initialize Summarization Pipelines
-hugging_face_summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+hugging_face_summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=0)
 translator = Translator()
 
 # Function to ensure temp directory exists
@@ -70,9 +68,7 @@ def sentiment_analysis(text):
     blob = TextBlob(text)
     return blob.sentiment
 
-# Custom Tokenizer Function (avoiding nltk's sent_tokenize)
-import re
-
+# Custom Tokenizer Function
 def custom_sent_tokenize(text):
     """Custom sentence tokenizer using regular expressions."""
     sentence_endings = re.compile(r'(?<!\w\.\w)(?<![A-Z][a-z]\.)(?<=\.|\?)\s')
@@ -82,7 +78,7 @@ def custom_sent_tokenize(text):
 # Summarization
 def chunk_text(text, chunk_size=1000):
     """Divides text into chunks for summarization."""
-    sentences = custom_sent_tokenize(text)  # Use custom tokenizer
+    sentences = custom_sent_tokenize(text)
     chunks = []
     current_chunk = ""
 
@@ -92,7 +88,7 @@ def chunk_text(text, chunk_size=1000):
         else:
             chunks.append(current_chunk.strip())
             current_chunk = sentence + " "
-    if current_chunk:  # Add the last chunk
+    if current_chunk:
         chunks.append(current_chunk.strip())
 
     return chunks
@@ -101,7 +97,7 @@ def summarize_text(text, model="hugging_face", length="medium"):
     """Summarizes the input text using the selected model."""
     max_length = 130 if length == 'brief' else 300 if length == 'detailed' else 200
     min_length = 30
-    chunks = chunk_text(text, chunk_size=800)  # Adjust chunk size for more granular summaries
+    chunks = chunk_text(text, chunk_size=800)
     summaries = []
 
     if model == "hugging_face":
@@ -117,33 +113,19 @@ def summarize_text(text, model="hugging_face", length="medium"):
 # Streamlit App Configuration
 st.set_page_config(page_title="AI-Powered Book Summarizer", layout="wide")
 
-# Header with Hamburger Menu
+# Header
 st.markdown(
     """
     <style>
+        h1 {
+            text-align: center;
+        }
         .css-18e3th9 {
             padding-top: 1.5rem;
         }
-        .css-1d391kg {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-        .css-hxt7ib {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #hamburger {
-            font-size: 1.8em;
-            cursor: pointer;
-            margin-right: 10px;
-        }
     </style>
-    <div class="css-hxt7ib">
-        <div id="hamburger">☰</div>
-        <h1 style="text-align:center;">📚 AI-Powered Book Summarizer</h1>
-        <div>Developed by <b>Zuhair Arif</b></div>
-    </div>
+    <h1>📚 AI-Powered Book Summarizer</h1>
+    <div style="text-align: center;">Developed by <b>Zuhair Arif</b></div>
     """,
     unsafe_allow_html=True,
 )
@@ -158,13 +140,11 @@ selected_model = st.sidebar.selectbox("Summarization Model:", ["hugging_face"])
 
 # Process Uploaded File
 if uploaded_file is not None:
-    # Save uploaded file
     ensure_temp_directory()
     file_path = os.path.join("temp", uploaded_file.name)
     with open(file_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
 
-    # Extract Text
     if uploaded_file.name.endswith('.txt'):
         text = extract_text_from_txt(file_path)
     elif uploaded_file.name.endswith('.pdf'):
@@ -174,29 +154,24 @@ if uploaded_file is not None:
         text = None
 
     if text:
-        # Language Detection
         language = detect_language(text)
         st.sidebar.markdown(f"**📖 Detected Language:** {language.upper()}")
 
-        # Translate Text (if necessary)
         if language != "en":
             st.sidebar.markdown("🔄 Translating text to English...")
             text = translate_text(text)
 
-        # Display Text Preview
         st.subheader("Extracted Text Preview:")
-        preview_length = min(1000, len(text))  # Limit preview to 1000 characters
+        preview_length = min(1000, len(text))
         st.text_area("Preview:", text[:preview_length], height=200)
         if st.checkbox("View Full Text"):
             st.text_area("Full Text:", text, height=400)
 
-        # Sentiment Analysis
         sentiment = sentiment_analysis(text)
         st.sidebar.markdown("### Sentiment Analysis:")
-        st.sidebar.markdown(f"- **Polarity:** {sentiment.polarity:.2f} (negative to positive scale)")
-        st.sidebar.markdown(f"- **Subjectivity:** {sentiment.subjectivity:.2f} (fact to opinion scale)")
+        st.sidebar.markdown(f"- **Polarity:** {sentiment.polarity:.2f}")
+        st.sidebar.markdown(f"- **Subjectivity:** {sentiment.subjectivity:.2f}")
 
-        # Generate Summary
         if st.button("Generate Summary"):
             with st.spinner("Summarizing... Please wait."):
                 summary = summarize_text(text, model=selected_model, length=summary_length)
@@ -205,6 +180,5 @@ if uploaded_file is not None:
     else:
         st.error("No text could be extracted from the uploaded file.")
 
-# Footer
 st.sidebar.markdown("---")
 st.sidebar.markdown("Developed by **Zuhair Arif**")
