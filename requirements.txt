@@ -1,3 +1,5 @@
+pip>=21.0
+rust
 streamlit==1.41.1
 transformers==4.31.0
 nltk==3.8.1
@@ -7,6 +9,4 @@ PyMuPDF==1.22.5
 langdetect==1.0.9
 torch==2.2.0  # Updated torch version
 tokenizers==0.13.3
-pip>=21.0
-rust
 
