@@ -1,9 +1,8 @@
-streamlit
-nltk
-transformers
-langdetect
-textblob
+streamlit==1.41.1
+transformers==4.24.0
+nltk==3.7
+textblob==0.15.3
 googletrans==4.0.0-rc1
-PyMuPDF==1.18.19
-torch
-tensorflow==2.17.0
+PyMuPDF==1.18.0
+langdetect==1.0.9
+torch==1.12.1
