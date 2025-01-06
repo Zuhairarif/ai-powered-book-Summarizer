@@ -1,4 +1,5 @@
 pip>=21.0
+rust
 streamlit==1.41.1
 transformers==4.31.0
 nltk==3.8.1
@@ -6,5 +7,5 @@ textblob==0.17.1
 googletrans==4.0.0-rc1
 PyMuPDF==1.22.5
 langdetect==1.0.9
-torch==2.5.1  # Compatible version
+torch==2.2.0  # Updated torch version
 tokenizers==0.13.3
