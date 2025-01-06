@@ -1,10 +1,13 @@
 pip>=21.0
 streamlit==1.25.0
-transformers==4.35.0
-nltk>=3.8.1
-textblob==0.17.1
-googletrans==4.0.0-rc1
-PyMuPDF>=1.23.0
-langdetect==1.0.9
-torch>=2.0
-tokenizers>=0.13.3
+transformers>=4.35.0  # Keeps latest version with prebuilt binaries
+nltk>=3.8.1           # Compatible and does not require Rust
+textblob==0.17.1      # For text processing, doesn't require Rust
+googletrans==4.0.0-rc1  # For translations, no Rust required
+PyMuPDF>=1.23.0       # PDF processing library, no Rust needed
+langdetect==1.0.9     # Language detection
+torch>=2.0            # PyTorch for deep learning
+sentencepiece>=0.1.99 # Replaces tokenizers; works with transformers and prebuilt wheels
+scikit-learn>=1.3.0   # For machine learning tasks
+pandas>=1.5.0         # Data manipulation
+numpy>=1.23.0         # Numerical operations
