@@ -6,8 +6,6 @@ import streamlit as st
 from langdetect import detect
 from textblob import TextBlob
 from googletrans import Translator
-import PyMuPDF
-
 
 # Ensure required NLTK data is downloaded
 try:
