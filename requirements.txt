@@ -8,3 +8,8 @@ pymupdf
 transformers
 torch
 torch==2.0.1+cpu  # Replace `+cpu` with your environment configuration
+streamlit
+transformers
+torch==2.0.1+cpu  # CPU-compatible PyTorch version
+nltk
+tensorflow==2.12.0
