@@ -1,7 +1,0 @@
-streamlit
-nltk
-transformers
-langdetect
-textblob
-googletrans==4.0.0-rc1
-pymupdf
